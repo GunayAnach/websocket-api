@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import sys, datetime, platform, getpass, base64, time, zlib
+import sys, datetime, platform, getpass, base64, time, zlib, ssl
 from websocket import create_connection
 from pprint import pprint as pp
 from json import loads, dumps
@@ -413,7 +413,7 @@ class connect(object):
         with timer(self, 'conn'):
             try:
                 self._inconnect = True
-                self.__ws = create_connection(self._url)
+                self.__ws = create_connection(self._url, sslopt={"cert_reqs": ssl.CERT_NONE})
                 self._ws_send = self.__ws.send
                 self._ws_recv = self.__ws.recv
                 ret = self._req(command = 'login', protocolVersion = 1)
